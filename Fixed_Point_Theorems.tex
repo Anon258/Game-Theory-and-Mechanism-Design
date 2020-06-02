@@ -1,0 +1,374 @@
+\documentclass{article}
+\usepackage{mystyle}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{apacite}
+\usepackage[hidelinks]{hyperref}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lem}[theorem]{Lemma}
+\newtheorem{cor}[theorem]{Corollary}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{ax}{Axiom}
+
+\title{Fixed Point Theorems}
+\author{
+	\textbf{Raj Aryan Agrawal}\\
+	190050097\\
+	Undergraduate, Department of Computer Science\\
+	Indian Institute of Technology Bombay\\
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Introduction}
+\begin{defn}
+\textbf{(Metric Space)} A metric space $(M,d)$ consists of a set $M$ and a mapping $d: M\times M \mapsto \mathbb{R}$ (the \textit{metric} or \textit{distance function}) such that $\forall~x,y,z \in M$, the following properties hold
+\begin{enumerate}
+	\item $d(x,y)\geq0$
+	\item $d(x.y) = 0 \iff x=y$
+	\item $ d(x,y) = d(y,x)$
+	\item $d(x,z) \leq d(x,y) + d(y,z)$
+\end{enumerate}
+\end{defn}
+\begin{defn}
+\textbf{(Open Ball)} For a metric space $(M,d)$ an open ball of radius $r>0$ centered at $x\in M$ is the set $$B(x,r) = \{y\in M: d(x,y)<r\}$$
+\end{defn}
+\begin{defn}
+\textbf{(Open Set)} An open set $U$ in metric space $(M,d)$ is a subset of $M$ such that at every $x\in U$ there exists an open ball contained in $U$.\\
+
+Alternatively, $\forall~x\in U~\exists \varepsilon >0$ s.t.for any $y\in M$ with $d(x,y)<\varepsilon$, $y\in U$
+\end{defn}
+\begin{defn}
+\textbf{(Bounded Set)} A subset $U$ of a metric space $(M,d)$ is called a bounded set if $\exists r\in \mathbb{R}$ s.t. $U \subset B(0,r)$
+\end{defn}
+\begin{defn}
+\textbf{(Closed Set)} A subset $U$ of metric space $(M,d)$ is said to be closed if every convergent sequence in $U$ converges to a point contained in $U$, i.e. $\forall~\{u_n\}\in U$ s.t. $u_n\rightarrow u$ for some $u\in M$ then $u\in U$.\\
+
+$U$ is closed iff $U^C = M\ U$ is an open set.
+\end{defn}
+\begin{defn}
+\textbf{(Compact Set)} A subset $U$ in a metric space $(M,d)$ is said to be a compact set if every sequence of points in $U$ has a convergent subsequence.
+\end{defn}
+\section{Convexity And Simplices}
+\begin{defn}
+\textbf{(Convex Set)} A set $S\subseteq \mathbb{R}^m$ is convex if $\forall~\mathbf{x,y}\in S$ and $\lambda\in[0,1]$, $\lambda\mathbf{x} + (1-\lambda)\mathbf{y}\in S$
+\end{defn}
+We will use $\mathbf{x}^i$ to denote $i$th vector in a set of vectors $\mathbf{x}^1,\dots,\mathbf{x}^n$ while $x_i$ will denote the $i$th component of vector $\mathbf{x}$.
+\begin{defn}
+\textbf{(Convex Combination)} $\sum_{i=1}^n \lambda_i\mathbf{x}^i$ is called a convex combination of $\mathbf{x}^1,\dots,\mathbf{x}^n$ if $\lambda_i\geq 0~\forall i\in\{1,\dots,n\}$ and $\sum_{i=1}^n \lambda_i = 1$. $\sum_{i=1}^n \lambda_i\mathbf{x}^i$ is a strictly positive combination if $\lambda_i >0 \forall i\in\{1,\dots,n\}$ 
+\end{defn}
+\begin{defn}
+\textbf{(Convex Hull)} For a set $S\in \mathbb{R}^m$, the convell hull of $S$ ($conv(S)$) is the set of all finite convex combinations of points in $S$ $$conv(S) = \left\{\sum_{i=1}^n\lambda_i\mathbf{x}^i \vert \mathbf{x}^i\in S, \lambda_i\geq 0~\forall i\in\{1,\dots,n\}; \sum_{i=1}^n \lambda_i = 1 \right\}$$
+\end{defn}
+\begin{defn}
+\textbf{(Affine Independence)} Vectors $\mathbf{x}^1,\dots,\mathbf{x}^n$ are affinely independent if $\sum_{i=1}^n\lambda_i\mathbf{x}^i = 0$ and $\sum_{i=1}^n \lambda_i = 0$ implies that $\lambda_1 = \dots = \lambda_n = 0$ 
+\end{defn}
+\begin{defn}
+\textbf{(Simplex)} An $n$-simplex is the set of all strictly positive convex combinations of an $(n+1)$-element affinely independent set. For affinely independent set $\mathbf{x}^1,\dots,\mathbf{x}^n$, the $n$-simplex $T$ is defined as $$T = \mathbf{x}^1,\dots,\mathbf{x}^n = \left\{\sum_{i=0}^n\lambda_i\mathbf{x}^i \vert \lambda_i\geq 0~\forall i\in\{1,\dots,n\}; \sum_{i=0}^n \lambda_i = 1 \right\}$$
+\end{defn}
+A simplex is a generalised notion of triangle in higher dimensions. This is also called as a closed simplex.
+\begin{defn}
+\textbf{(Face of a Simplex)} For $k \leq n$, the $k$-simplex $\tau = \mathbf{x}^{i_0},\dots,\mathbf{x}^{i_k}$ is a face of $\mathbf{x}^1,\dots,\mathbf{x}^n$ if $i_0,\dots i_k\in \{0,\dots n\}$ and $i_0<\dots<i_k$. A closed simplex is a union of all faces of an $n$-simplex.\\
+
+$\tau$ is said to be a \textit{proper face} of $T$ if $k<n$. We write $\tau \leq T$ or $\tau < T$ accordingly. Faces of $(n-1)-$simplex are called \textit{facets}
+\end{defn}
+\begin{defn}
+\textbf{(Boundary and Interior of a Simplex)} The boundary $\partial T$ of a simplex $T$ is defined as $$\partial T = \bigcup \tau ~\forall \tau < T$$ and the interior is defined as $$int(T) = T - \partial T$$ $\mathbf{x}\in int(T)$ if $\lambda_i > 0 \forall i\in\{0,\dots,n\}$ 
+\end{defn}
+\begin{defn}
+\textbf{(Standard n-Simplex)} The standard n-simplex ($\Delta_n$) is the simplex formed by the $(n+1)$ standard basis vectors in $\mathbb{R}^{n+1}$
+$$\Delta_n = \left\{\mathbf{x}\in \mathbb{R}^{n+1}\vert \sum_{i=0}^n x_i = 1, x_i\geq 0 \forall i\in\{0,\dots,n\} \right\}$$
+\end{defn}
+Let $\mathbb{P}(S)$ be the power set of $S$. Let $\mathbf{y} \in conv(\{\mathbf{x}^1,\dots,\mathbf{x}^n\})$ such that $\mathbf{y} = \sum_{i=0}^n \lambda_i \mathbf{x}^i$. Define the function $\chi: conv(\{\mathbf{x}^1,\dots,\mathbf{x}^n\}) \mapsto \mathbb{P}(\{0,\dots,n\}$ defined by $\chi(\mathbf{y}) = \{i\vert \lambda_i>0\}$. If $\chi(\mathbf{y}) = \{i_0,\dot, i_k\}$ then $\mathbf{y} \in \mathbf{x}^{i_0},\dots,\mathbf{x}^{i_k}$. This face is the \textit{carrier} of $\mathbf{y}$.
+
+\begin{defn}
+\textbf{(Simplical Subdivision)} Consider an n-simplex $T = \mathbf{x}^0,\dots,\mathbf{x}^n$. A simplical subdivision of $T$ is a finite set of simplices $K = \{ T_i : i\in \{1,\dots, m\}\}$ (called \textit{subsimplices}) such that $\bigcup_{i=1}^{m} T_i = T$ and $\forall i,j \in  \{1\dots m\}$, we have $T_i \cap T_j = \phi$ or $T_i \cap T_j = T_{ij}$ where $T_{ij}$ is a common face of $T_i$ and $T_j$.
+\end{defn}
+The \textbf{mesh} of a simplical subdivision is the diameter of the largest subsimplex in the subdivision.\\
+\begin{defn}
+\textbf{(Equilateral Subdivision)} For any $m\in \mathbb{N}$ the set of vertices $$V = \{\mathbf{v} \in \mathbb{R}^{n+1} \vert v_i = \frac{k_i}{m}, k_i\in \mathbb{N}_0 \forall i \in \{0,\dots,n\}; \sum_{i=0}^n k_i = m\}$$
+\end{defn}
+\begin{defn}
+\textbf{(Barycenter of a Simplex)} Consider a simplex $T = \mathbf{x}^0,\dots,\mathbf{x}^n$, the barycenter of $T$ is defined as $$b(T) = \frac{1}{n+1}\sum_{i=0}^n \mathbf{x}^i$$
+\end{defn}
+\begin{defn}
+\textbf{(Barycentric Subdivision)} Given a simplex $T$, the first barycentric subdivision is defined as the set of all simplices of the form $b(T_0)\dotsb(T_k)$ such that $T\geq T_0 >T_1\dots >T_k$. Further subdivisions are defined recursively.
+\end{defn}
+\section{Sperner's Lemma}
+\begin{defn}
+\textbf{(Labeling Function)} Given a simplically subdivided closed $n$-simplex $T$, let $V$ be the set of all vertices of all subsimplices. We define a labelling function $f: V\mapsto \{0,\dots,n\}$. This is a \textbf{proper labelling}  of the subdivision if $f(\mathbf{v}) \in \chi(\mathbf{v})$ for all $\mathbf{v}\in V$. An $n$-subsimplex is \textbf{completely labeled} by $f$ if $f$ takes all values $0, \dots, n$ on its vertices.
+\end{defn}
+Before proceeding to prove Sperner's Lemma, we need some mathematical background from Graph Theory.
+\begin{theorem}
+\label{Degree Sum}
+\textbf{(Degree-Sum Formula)} Let $V$ be the vertex set and $E$ be the edge set of a graph $G(V,E)$. Let $deg(v)$ denote degree of a vertex $v$(number of edges incident on it). The degree sum formula says that $$\sum_{v\in V} deg(v) = 2|E|$$ where $|E|$ is the cardinality of edge set (number of edges).
+\end{theorem}
+\begin{proof}
+Every vertex $v\in V$ belongs to $deg(v)$ incident pairs (ordered pair). Then sum of degree is the total number of incident pairs. Also each edge belongs to 2 incident pairs, so total number of incident pairs is $2|E|$. Equating the 2 we get the required result.
+\end{proof}
+\begin{lem}
+\label{Handshake}
+\textbf{(Handshaking Lemma)} Every finite undirected graph has an even number of vertices with odd degree.
+\end{lem}
+\begin{proof}
+Since the sum of all degrees is even, if we have odd vertices with odd degree, the sum will be odd which is not possible. Hence we have even number of vertices with odd degree
+\end{proof}
+\begin{theorem}
+\label{Sperner}
+\textbf{(Sperner's Lemma)} Every properly colored simplical subdivision contains an $n$-subsimplex that is completely labeled by $f$. And more strongly there is an odd number of such $n$-subsimplices.
+\end{theorem}
+\begin{proof}
+We will prove the lemma through an induction on $n$.\\
+
+\textit{$n=0$:} The $0$-simplex is just a point, say $\mathbf{x}^0$. By definition of the labeling function, the single point in $T$ can only be assigned a label of $0$, and since the face containing it consists only of that point ($x_0$), this face is a completely-labeled $0$-subsimplex. There are no other possible nonempty subsimplices or simplicial subdivisions, so there are an odd number of completely-labeled $0$-subsimplices for $n = 0$.\\
+
+\textit{General $n$:} Assume that any properly coloured $(n-1)$-simplex which labelled by $\{0,\dots,n-1\}$ contains an odd number of completely labelled $n-1$-subsimplices.\\
+
+Take any $n$-simplex, let us say $T$. 
+\begin{itemize}
+\item Let $C$ be the number of completely labelled $n$-subsimplices. 
+\item Let $A$ be the number of cells that achieve labels $\{0,\dots ,n-1\}$ but not $n$. So, there is exactly one label $i \in \{1,\dots,n-1\}$ which labels 2 vertices of a $n$-subsimplex in $A$.
+\item Let $B$ be all the completely labeled $(n-1)$-subsimplices on face $\mathbf{x}^0 \dots \mathbf{x}^{n-1}$
+\item Let $E$ be the set of all completely labeled $(n-1)$ subsimplices (i.e. all labels $\{0,\dots,n-1\}$) ($B\subseteq E$)
+\end{itemize}
+Construct a graph $G(V,E)$ where the set of vertices $V = C\cup A\cup B$ and let E be the set of edges. An edge $e$ is incident to a vertex $v\in V$ if
+\begin{itemize}
+	\item $v = e \in B$ or
+	\item $v \in A\cup C$ and $e$ is a face of $v$
+\end{itemize}
+We first show that such a graph is well defined, i.e. every edge is incident to exactly 2 different vertices. Consider $e \in E$, there are 2 cases
+\begin{itemize}
+	\item If $e \in B$, then $e$ is incident at itself. $e$ will also be incident to some face of an $n$-subsimplex $T_n$ having face on $\mathbf{x}^0 \dots \mathbf{x}^{n-1}$. Since $e$ is completely labelled, this means $T_n \in A\cup C$ since it has all first $n-1$ labels. Thus $e$ is incident on 2 vertices.
+
+	\item If $e \in E \backslash B$, then $e$ must be a face formed in $int(T)$, i.e. in face $\mathbf{x}^0 \dots \mathbf{x}^n$ , and must be the intersection face of 2 $n$-subsiplices. This forces the 2 subsimplies to be in $A\cup C$. So $e$ will be incident at 2 distinct vertices.
+\end{itemize}
+Thus $G$ is a well defined graph. Now we will calculate the total sum of degrees. 
+\begin{itemize}
+\item If $v\in B$, then $deg(v) = 1$, the only edge incident on $v$ is \textit{itself}. It can't have any other edge incident on it, since all other are incident in $A\cup C$ and $B$ is not in that.
+\item If $v\in C$, then $deg(v) = 1$. As $v$ achieves all $\{0,\dots,n\}$, there is exactly 1 face where it attains $\{0,\dots, n-1\}$ and is the only time when an edge is incident on it.
+\item If $v \in A$, then $deg(v) = 2$. As mentioned before, there is exactly one label $i$ being repeated, call them $\mathbf{x}_1$ and $\mathbf{x}_2$, then there are 2 faces where an edge can be incident, one containing all except $\mathbf{x}_1$ and other without $\mathbf{x}_2$.
+\end{itemize}
+Now from Theorem \ref{Degree Sum}, $\sum_{v\in V} deg(v) = 2|E|$. This gives us $2|E| = 2|A|+|B|+|C|$ which means $|B|+|C|$ is even. (Lemma \ref{Handshake})\\
+
+But $|B|$ is odd by inductive hypothesis. Consider $T' = \mathbf{x}^0 \dots \mathbf{x}^{n-1}$ which is labelled in the same way as $T$ according to $f$. Then $T'$ is a properly labeled $(n-1)$-simplex, and must have odd number of completely labeled $(n-1)$-subsimplex on the face $\mathbf{x}^0 \dots \mathbf{x}^{n-1}$ which is what we called $|B|$.\\
+
+This gives $|C|$ is odd, which is the number of completely labeled $n$-subsimplices.
+\end{proof}
+
+\section{Brouwer's Fixed Point Theorem}
+\begin{defn}
+\textbf{(Fixed Point)} Given a set $X$ that is a subset of a Euclidian space and a function $f: X\mapsto X, x^*\in X$ is a \textit{fixed point} of $f$ if $f(x^*) = x^*$
+\end{defn}
+
+With Sperner's Lemma, we can now prove Brouwer's Fixed Point Theorem for simplices. We just need one more mathematical preliminary to proceed.
+\begin{lem}
+\label{bound}
+A bounded increasing sequence of reals converges to its least upper bound.
+\end{lem}
+\begin{proof}
+Consider an increasing sequence $p_n$. Let $p = sup(\{p_1, p_2, \dots\}$. Let $\epsilon >0$. Since $p$ is the least upper bound, $\exists n\in \mathbb{N}$ s.t. $p_n > p - \epsilon$. Since $p_n$ is increasing, we have $\forall m\geq n$, $p+\epsilon>p_m\geq p_n > p - \epsilon$. Thus $\forall m\geq n$, we have $|p_m - p|<\epsilon$. Thus $p_n$ converges to $p$.
+\end{proof}
+We can prove analogously that a bounded decreasing sequence of reals converges to its greatest lower bound.
+\begin{lem}
+\label{monotone}
+Every infinite sequence $(x_n)$ in $\mathbb {R}$ has a monotone subsequence.
+\end{lem}
+\begin{proof}
+Let us call a positive integer $n$ a \textit{peak of the sequence} if $n<m$ implies $x_n>x_m$, i.e. $x_n$ is greater than every subsequent term $x_m$ in subsequence.\\
+
+Suppose first that there are infinite peaks, $n_1 < n_2 < \dots$, then the sequence $(x_{n_j})$ is a monotonically decreasing sequence.\\
+
+Now suppose there are only finitely many peaks, then let $N$ be the last peak, consider $n_1 = N+1$, then $n_1$ is not a peak, which implies $\exists n_2 > n_1$ s.t. $x_{n_2}\geq x_{n_1}$. Again, $n_2>N$ is not a peak, and we get a $n_3$ and so on, we get a non decreasing sequence.
+\end{proof}
+\begin{theorem}
+\label{Bolzanno}
+\textbf{(Bolzano-Weierstrass Theorem)} Every bounded sequence in $\mathbb{R}^n$ has a convergent subsequence.
+\end{theorem}
+\begin{proof}
+First consider $\mathbb{R}$. By Lemma \ref{monotone}, there exists a monotone subsequence which is bounded, hence it converges from Lemma \ref{bound}.\\
+
+This can be extended to $\mathbb{R}^n$ as first we get a subsequence which converges in first coordinate. This is also bounded, so we can take a subsequence of this subsequence which converges on 2nd coordinate and so on.
+\end{proof}
+\begin{lem}
+\label{subsequence}
+If a sequence converges, then every subsequence converges to the same limit.
+\end{lem}
+\begin{proof}
+Let $(s_{n_k})$ denote subsequence of $(s_n)$. Note that $n_k \geq k$ which is direct from induction, $n_1 \geq 1$ and $n_{k+1}>n_k\geq k$. Also since $(s_n)$, $\exists s\in \mathbb{R}^m$ and $\epsilon>0$ such that $|s_j - s|<\epsilon \forall j>n_0$, and $n_j \geq j >n_0$, so $|s_{n_j} - s|<\epsilon \forall n_j>n_0$
+\end{proof}
+We are now able to prove the Brouwer's Theorem for simplices.
+\begin{theorem}
+\label{Brouwer}
+\textbf{(Brouwer's Fixed Point Theorem for standard n-simplex)} If $f:\Delta_n \mapsto \Delta_n$ is continuous, then it has a fixed point.
+\end{theorem}
+\begin{proof}
+We have a function f of form $f = \{f_0,f_1,\dots, f_n\}$. Fix $j \in \mathbb{N}$ and take a simplical subdivision of $\Delta_n$ such that the $mesh \leq 1/j$. (Such a subdivision must exist - example equilateral or barycentric subdivision). Let $V$ be the set of all vertices of all subsimplices and construct a labelling function $\lambda: V\mapsto \{0,\dots,m\}$. If $\mathbf{v} \in V$ satisfies $\chi(\mathbf{v}) = \{t_0,\dots, t_k\} (\mathbf{v} \in \mathbf{e}^{t_0}\dots \mathbf{e}^{t_k})$ then $$\lambda(\mathbf{v}) = \min\{\chi(\mathbf{v}) \cap \{j: v_j \geq f_i(\mathbf{v})\} \}$$ Such a mapping exists. Suppose not, i.e. $f(\mathbf{v})_j > v_j \forall j\in\{t_0,\dots, t_k\}$, then $$1 = \sum_{i=0}^n f(\mathbf{v})_i \geq \sum_{j=0}^k f(\mathbf{v})_{t_j} > \sum_{j=0}^k v_{t_j} = \sum_{i=0}^n v_i = 1$$ which is a contradiction.\\
+
+Now, this is a proper labeling as $\lambda(\mathbf{v}) \in \chi(\mathbf{v}) \forall v\in V$. This satisfies Sperner's Conditions. By Sperner's Lemma (Theorem \ref{Sperner}) there must exist a completely labeled $n$-subsimplex which is completely labeled. Let this subsimplex be $\mathbf{v}^j_0 \dots \mathbf{v}^j_n$ where $0,1,\dots n$ are the labelings and the superscipt is the division (recall, $mesh<1/j$). We can do this process for all $j\in \mathbb{N}$. Thus we get the infinite sequences $(\mathbf{v}^j_k)_{j\in \mathbb{N}} \forall k\in \{0,\dots, n\}$.\\
+
+Consider sequence $(\mathbf{v}^j_0)$, this sequence itself may not necessarily have a limit, as the location of subsimplex may vary. But $\mathbf{v}^j_0 \in \Delta_n$ for all $j$ and $\Delta_n$ is bounded. So $(\mathbf{v}^j_0)$ is a bounded sequence. Then by Theorem \ref{Bolzanno}, there exists a subsequence $(j_0)$ such that $(\mathbf{v}^{j_0}_0)$ converges to point $\mathbf{v}_0\in \Delta_n$\\
+
+Now consider sequence $(\mathbf{v}^{j_0}_1)$ (i.e. constrained to new subsequence $j_0$), again, this may not converge, but by theorem \ref{Bolzanno}, there exists a subsequence of $j_0$ as $(j_1)$ such that $(\mathbf{v}^{j_1}_1)$ converges to a value $\mathbf{v}_1\in \Delta_n$.\\
+
+And similarly, we reach sequence $(\mathbf{v}^{j_n}_n)$ converges to $\mathbf{v}_n\in \Delta_n$. Now by Lemma \ref{subsequence}, we get that $$(\mathbf{v}^{j_n}_0),\dots ,(\mathbf{v}^{j_n}_n) \rightarrow \mathbf{v}_1, \dots ,\mathbf{v}_n$$
+Now as $j\rightarrow \infty$, vertices of the $n$-subsimplex approach each other, i.e. vertices of $\mathbf{v}^j_0 \dots \mathbf{v}^j_n$ approach each other. (Note this only implies in a subsimplex they come towards each other, and not that each vertex individually also converges to that fixed value, that is why we had to consider subsequences).  Therefore, $$\mathbf{v}_1 = \dots = \mathbf{v}_n = \mathbf{v}^* \text{ where } \mathbf{v}^*\in \Delta_n$$
+Also, $\sum_{j=0}^n f_j(\mathbf{v}^*) = 1$ as range of $f$ is $\Delta_n$. Also, by Sperner's Condition, for $k$th label in $j$ division $f(\mathbf{v}^j_k)_k\leq (v^j_k)_k$ where $(v^j_k)_k$ is the $k$th component of $\mathbf{v}^j_k$ $\forall k = \{0,1,\dots,\}$ and $\forall j\in \mathbb{N}$. Since $f$ is continuous, $f_i$ is also continuous $\forall i \in \{0,\dots, n\}$ and $f_i(\mathbf{v}^*) \leq v^*_i \forall i\in \{0,\dots, n\}$. Then it follows that $f(\mathbf{v^*})\leq \mathbf{v^*}$. Now consider $f_j(\mathbf{v}^*) < v^*_j$ for some $j \in \{0,\dots, n\}$, then
+$$ 1 =\sum_{j=0}^n v^*_j > \sum_{j=0}^n f_j(\mathbf{v}^*) = 1$$
+This is a contradiction. Hence $f(\mathbf{v}^*) = \mathbf{v}^*$
+\end{proof}
+\section{Homeomorphisms}
+Till now, we have only proved Brouwer’s fixed point theorem for the standard $n$-simplex $\Delta_n$. We wish to extend this theorem to other sets $X$ (non-empty, compact and convex sets). To do this, we utilise homeomorphisms. We show that any $m$-dimensional non-empty, convex, compact set is homeomorphic to the standard $(m-1)$-simplex, thus proving that these sets have the fixed point property as well.
+\begin{defn}
+\textbf{(Homeomorphism)} A set $X$ is said to be homeomorphic to the set $Y$ if there exists a continuous bijection $f:X\mapsto Y$ such that $f^{-1}$ is also continuous. Such a bijection is called a homeomorphism.
+\end{defn}
+\begin{lem}
+\label{Homeo Transitivity}
+If $A$ is homeomorphic to $B$ and $B$ is homeomorphic to $C$, then $A$ is homeomorphic to $C$
+\end{lem}
+\begin{proof}
+Since $A$ is homeomorphic to $B$, there exists a homeomorphism $f:A\mapsto B$. As $B$ is homeomorphic to $C$, there exists a homeomorphism $g:B\mapsto C$. Consider the composition $f\circ g A\mapsto C$. Since $f$ and $g$ are continuous bijections, so is their composite. Also $(f\circ g)^{-1} = g^{-1} \circ f^{-1}$ which is continuous as both $f^{-1}$ and $g^{-1}$ are continuous. Hence composition $f\circ g:A\mapsto C$ is a homeomorphism and $A$ is homeomorphic to $C$.
+\end{proof}
+\begin{lem}
+\label{Fixed Point}
+For all $n\in \mathbb{N}$, if $K$ is homeomorphic to $\Delta_n$ and $f:K\mapsto K$ is continuous, then $f$ has a fixed point.
+\end{lem}
+\begin{proof}
+As $K$ is homeomorphic to $\Delta_n$, there exists some homeomorphism $h:\Delta_n \mapsto K$. Consider $h^{-1} \circ f\circ h :\Delta_n\mapsto \Delta_n$, so by Brouwer's Theorem for standard n-simplex (Theorem \ref{Brouwer}), $h^{-1} \circ f\circ h$ must have a fixed point, say it is $\mathbf{x}\in \Delta_n$. Then $h^{-1}(f(h(\mathbf{x}))) = \mathbf{x}$. Since $h$ is bijective, so is $h^{-1}$, then $f(h(\mathbf{x})) = h(\mathbf{x})$. Then $h(\mathbf{x})\in K$ is a fixed point of $f$
+\end{proof}
+To prove this homeomorphism, we will show that any nonempty, compat, convex set in $\mathbb{R}^n$ is homeomorphic to a closed unit ball in $\mathbb{R}^n$. Since the standard closed $(m-1)$-simplex also has these properties, it will also be homeomorphic to a closed unit ball in $\mathbb{R}^n$.\\
+
+To show that any nonempty, compact, convex set in $\mathbb{R}^m$ is homeomorphic to a closed unit ball in $\mathbb{R}^m$, we will use a special function $k: \mathbb{R}^m\backslash 0 \mapsto K$ defined by $$k(\mathbf{x}) = y \text{ s.t. } y \in r(\mathbf{x})\cap K \text{ but } \forall \alpha>1 \alpha \mathbf{y} \notin K$$ where $r(\mathbf{x}) = \{\alpha\mathbf{x}\vert \alpha \in \mathbb{R}^+\}$ is a set of points called \textbf{ray} of $\mathbf{x}\in \mathbb{R}^m$. This function $k$ maps a point $\mathbf{x}\in \mathbb{R}^m$ to the point in $K$ farthest from the origin along $r(\mathbf{x})$. We assume $\mathbf{0}$ in the $int(K)$ without loss of generality, and thus we can find points in any direction from \textbf{0} (there existsan arbitrarily small $\epsilon$-ball around \textbf{0} fully contained in K - by definition of interior point). This assumption does not limit our possibilities for $K$ since any other closed compact set can be moved to origin (i.e. a function of form $f(\mathbf{x}) = \mathbf{x} - \mathbf{x}_0$ will make a set with \textbf{0} in interior homeomorphic to a 'similar'- same shape but translated set). First we discuss some properties of $k$, i.e. we show such a function does exist and is continuous, and then proceed to prove the homeomorphism. 
+
+\begin{lem}
+For all $K$, $k$ is well defined and bounded. (Note, well defined means every point has exactly 1 image only)
+\end{lem} 
+\begin{proof}
+For a fixed $\mathbf{x}$ let us say $N = \{ \Vert \mathbf{y} \Vert \vert \mathbf{y} \in r(\mathbf{x})\cap K\}$ and suppose $r_x = sup N$. We know $sup N$ must exist as $K$ is bounded and non empty interior, so $r(\mathbf{x})\cap K$ is bounded, which in turn gives that $N$ is bounded and $sup N \in \bar{N}$ where $\bar{N}$ is the closure of $N$ (closure of a set $S$ is the union of all elements of $S$ with all limit points of $S$).\\
+
+Thus, there must exist a sequence $\mathbf{y}_1,\mathbf{y}_2 \dots$ such that $\mathbf{y}_n \in r(\mathbf{x}) \cap K$ for all $n\in\mathbb{N}$ and $\lim_{n\to\infty} \| \mathbf{y}_n\| = sup~N = r_x$. \\
+Also the sequence $(\mathbf{y}_n)$ is bounded as $r(\mathbf{x}) \cap K$ is compact. So by Theorem \ref{Bolzanno}, there is a convergent subsequence of $(\mathbf{y}_n)$ that converges to $\mathbf{y}\in r(\mathbf{x}) \cap K$. (The original sequence ($\mathbf{y}_n)$ may not be convergent, only $\| \mathbf{y}_n\|$ is). Also since $\lim_{n\to\infty} \| \mathbf{y}_n\| = r_x$, we have $\| \mathbf{y}\| = r_x$.\\
+Also it is not possible to have $\mathbf{y}' \in r(\mathbf{x}) \cap K$ such that $\mathbf{y}' = \alpha \mathbf{y}$ with $\alpha>1$ as then $\|\mathbf{y}'\| = \alpha\| \mathbf{y}\| > \|\mathbf{y}\| = sup N$ which is a contradiction.\\
+Hence for each $\mathbf{x}$, we showed there exists a $\mathbf{y}$ and such a $\mathbf{y}$ is unique. Hence $k$ is well defined. Also $k$ is bounded below by \textbf{0} and above by compactness of $K$.
+\end{proof}
+\begin{lem}
+For all $K$, $k$ is continuous.
+\end{lem}
+\begin{proof}
+Consider $\mathbf{x} \in \mathbb{R}^m\backslash \{\mathbf{0}\}$ and suppose $k$ is not continuous at $\mathbf{x}$. Then there exists some $\epsilon > 0 $ such that $\forall \delta>0$ there exists some $\mathbf{y}\in \mathbb{R}\backslash \{\mathbf{0}\}$ such that $\| \mathbf{x} - \mathbf{y}\| < \delta$ but $\|k(\mathbf{x}) - k(\mathbf{y})\| \geq \epsilon$.\\
+Since \textbf{0} is in the interior of $K$ there exists a ball around \textbf{0} with radius $\epsilon'$ such that $B(\mathbf{0}, \epsilon')\subset K$. Since $K$ is convex, the convex hull $C = conv(B(\mathbf{0}, \epsilon')\cup \{k(\mathbf{x})\}) \subset K$ as $k(\mathbf{x}) \in K$. Consider the region around $k(\mathbf{x})$, (note the entirety of a ball around this may not exist), so let $T = C\cap \partial B(k(\mathbf{x}), \epsilon)$ where $C$ is as defined above. Then $T\subset C\subset K$, so $T\subset K$. (If $\mathbf{0}\in B(k(\mathbf{x}), \epsilon)$ we can just make our $\epsilon$ arbitrarily smaller such that $\mathbf{0}\notin B(k(\mathbf{x}), \epsilon)$)\\
+
+Now, for $\delta = 1/n \forall n \in \mathbb{N}$, $\exists \mathbf{y}_n$ such that $k(\mathbf{y}_n) \notin B(k(\mathbf{x}), \epsilon)$, we get a sequence $(\mathbf{y}_n)$ and we get $\lim_{n\to \infty} \mathbf{y}_n = \mathbf{x}$. Since $\mathbf{y}_n$ approaches $\mathbf{x}$, $r(\mathbf{y}_n)$ approaches the direction of $r(\mathbf{x})$ and will thus intersect $T$ in its interior for sufficiently large n.\\
+
+Also $k(\mathbf{y}_n)$ must be on the 'farther side' of $B(k(\mathbf{x}), \epsilon)$ from the origin for sufficiently large $n$.\\
+Consider it was not so, and that $k(\mathbf{y}_n)$ was closer to the origin than $B(k(\mathbf{x}), \epsilon)$, then $r(\mathbf{y}_n)$ will intersect with $T$ at a farther distance than $k(\mathbf{y}_n)$. Now $k(\mathbf{y}_n) \in r(\mathbf{y}_n)$, this means for some $\alpha>1$, $\alpha k(\mathbf{y}_n) \in r(\mathbf{y}_n) \cap T \subset r(\mathbf{y}_n) \cap K \subset K$, i.e. $\alpha k(\mathbf{y}_n) \in K$ for some $\alpha>1$. This is a contradiction by the definition of $k$. Hence it must be on the farther side, i.e. $\|k(\mathbf{y}_n)\|> \|k(\mathbf{x})\|$ (Note that to prove this, we had to define $T$ and do the math)\\
+
+Now $k(\mathbf{y}_1),k(\mathbf{y}_2),\dots \in K$ and $K$ is compact, by Theorem \ref{Bolzanno}, we can get a convergent subsequence of $(k(\mathbf{y}_n))$ that converges to $\mathbf{y}^*\in K$. Also, since $\|k(\mathbf{y}_n)\|> \|k(\mathbf{x})\|$, we have $\|\mathbf{y}^*\|> \|k(\mathbf{x})\|$ .\\
+Now, $k(\mathbf{y}_n) \in r(\mathbf{y}_n)$ and direction of $r(\mathbf{y}_n)$ approaches direction of $r(\mathbf{x})$, we have $\mathbf{y}^* \in r(\mathbf{x})$. And $k(\mathbf{x}) \in r(\mathbf{x})$,we have $$\mathbf{y}^* = \|\mathbf{y}^*\| \frac{k(\mathbf{x})}{\|k(\mathbf{x})\|} = \frac{\|\mathbf{y}^*\|}{\|k(\mathbf{x})\|}k(\mathbf{x})$$ But $\mathbf{y}^*\in K$ and $\|\mathbf{y}^*\|> \|k(\mathbf{x})\|$, that means $\mathbf{y}^* = \alpha k(\mathbf{x}) \in K$ for some $\alpha>0$. This is a contradiction to definition of $k$. Thus $k$ must be continuous at $\mathbf{x}$. This can be generalised for all $\mathbf{x} \in \mathbb{R}^m \backslash \{\mathbf{0}\}$. Thus $k$ is continuous in its domain.
+\end{proof}
+Now we prove the required homeomorphism.
+\begin{theorem}
+\label{Homeo}
+Every compact, convex subset of $\mathbb{R}^m$ with nonempty interior is homeomorphic to a closed unit ball in $\mathbb{R}^m$.
+\end{theorem}
+\begin{proof}
+Let $K$ be an arbitrary compact, convex subset of $\mathbb{R}^m$ with non empty interior. Consider the function $f:\mathbb{R}^m\mapsto \mathbb{R}^m$ given by
+\[
+  f(\mathbf{x}) =
+  \begin{cases}
+  	\frac{\mathbf{x}}{\|k(\mathbf{x})\|} & \text{if } \mathbf{x}\neq \mathbf{0} \\
+    \mathbf{0} & \text{if } \mathbf{x} = \mathbf{0}
+  \end{cases}
+\]
+Since $k$ is continuous, and so is $\mathbf{x}$ on $\mathbb{R}^m\backslash \{\mathbf{0}\}$, then $f$ is continuous on $\mathbf{x}\neq \mathbf{0}$. We now show continuity at \textbf{0}.\\
+
+Consider $\epsilon >0$, we need to show a $\delta>0$ exists such that for all $\mathbf{y}\in \mathbb{R}^m$ such that $\|\mathbf{y}\|<\delta$, we have $\|f(\mathbf{y})\|<\epsilon$. Then for $0 <\|\mathbf{y}\|<\delta$ we need $\displaystyle{\left\|\frac{\mathbf{y}}{\|k(\mathbf{y})\|}\right\|<\epsilon}$ . For $\mathbf{y} = \mathbf{0}$, we have $\|f(\mathbf{0})\| = 0 <\epsilon$.\\
+Now $k(\mathbf{y}) \in \partial K \subset K$ for any $\mathbf{y}$, i.e. $k$ sends point to boundary of $K$ which is in $K$ as $K$ is closed. And $K$ contains an open ball $B(\mathbf{0},\epsilon')$ for some $\epsilon'$, hence $\|k(\mathbf{y})\| \geq \epsilon'$ for all $\mathbf{y}\neq \mathbf{0}$. Take $\delta = \epsilon' \epsilon$. Consider $\mathbf{y}\neq \mathbf{0}$ such that $\|\mathbf{y}\| <\epsilon'\epsilon$, then $$\left\|\frac{\mathbf{y}}{\|k(\mathbf{y})\|}\right\| = \frac{\|\mathbf{y}\|}{\|k(\mathbf{y})\|} \leq \frac{\|\mathbf{y}\|}{\epsilon'} < \epsilon$$ as $\|k(\mathbf{y})\| \geq \epsilon'$. Thus $f$ is continuous at $\mathbf{0}$ and hence for all $\mathbb{R}^m$.\\
+
+Now consider a function $g:\mathbb{R}^m \mapsto \mathbf{R}^m$ given by 
+\[
+  g(\mathbf{x}) =
+  \begin{cases}
+  	\|k(\mathbf{x})\|\mathbf{x} & \text{if } \mathbf{x}\neq \mathbf{0} \\
+    \mathbf{0} & \text{if } \mathbf{x} = \mathbf{0}
+  \end{cases}
+\]
+We will show $f$ and $g$ are inverses (for homeomorphisms, we need $f$ and $f^{-1}$ be continuous with other conditions). Firstly, $g$ is obviously continuous for $\mathbb{R}^m\backslash \{\mathbf{0}\}$. For $\mathbf{0}$, since $K$ is bounded, $\exists M>0$ such that $\|k(\mathbf{y})\|\leq M \forall \mathbb{R}^m\backslash \{\mathbf{0}\}$. Consider $\epsilon>0$ and take $\delta = \frac{\epsilon}{M}$, then for all $y\in \mathbb{R}^m$ such that $0 <\|\mathbf{y}\|<\delta$, we have $$\|\|k(\mathbf{y})\| \mathbf{y}\| = \|k(\mathbf{y})\|\|\mathbf{y}\| \leq M\|\mathbf{y}\| <\epsilon$$ and for $\mathbf{y} = \mathbf{0}$, $\|g(\mathbf{0})\| = 0 <\epsilon$. Hence $g$ is continuous for all $\mathbb{R}^m$.\\
+
+Note that if $\mathbf{x}$ and $\mathbf{y}$ are positively collinear (i.e. $\mathbf{x} = c\mathbf{y}$ where $c\in \mathbb{R}^+$), then they share the same ray ($r(\mathbf{x})= r(\mathbf{y})$), so by definition $k(\mathbf{x})= k(\mathbf{y})$\\
+
+If $\mathbf{x} = \mathbf{0}$, $f(g(\mathbf{0})) = \mathbf{0}$ and $g(f(\mathbf{0})) = \mathbf{0}$. If $\mathbf{x} \neq \mathbf{0}$, then $k(\mathbf{x})\neq \mathbf{0}$ and hence $f$ and $g$ will never map to $\mathbf{0}$. So now, $$f(g(\mathbf{x})) = f(\|k(\mathbf{x})\|\mathbf{x}) = \frac{\|k(\mathbf{x})\|\mathbf{x}}{\|k(\|k(\mathbf{x})\|\mathbf{x})\|}$$
+Now $\mathbf{x}$ and $\|k(\mathbf{x})\|\mathbf{x}$ are positively collinear, so $k(\mathbf{x}) = k(\|k(\mathbf{x})\|\mathbf{x})$, so $f(g(\mathbf{x})) = \mathbf{x}$. Similarly $$g(f(\mathbf{x})) = g\left(\frac{\mathbf{x}}{\|k(\mathbf{x})\|}\right) = \left\| k\left(\frac{\mathbf{x}}{\|k(\mathbf{x})\|}\right)\right\|\frac{\mathbf{x}}{\|k(\mathbf{x})\|}$$ now $\mathbf{x}$ and $\frac{\mathbf{x}}{\|k(\mathbf{x})\|}$ are positively collinear, so again we get $g(f(\mathbf{x}))  = \mathbf{x}$ by same logic as above. Hence from the above 2 relations, we get $f$ and $g$ are inverses of each other.\\
+
+Now, we proceed to show mapping of ball to K and vice versa. If $\mathbf{x}\in K$, then $k(\mathbf{x}) = \alpha \mathbf{x}$ where $\alpha \geq 1$ by definition of $k$. Thus $1/\alpha \in (0,1]$ and $$f(\mathbf{x}) = \frac{\mathbf{x}}{\alpha\|\mathbf{x}\|} \in \bar{B}(\mathbf{0},1)$$ where $\bar{B}$ represent the closed ball. (For $\mathbf{x} = \mathbf{0}$, we have $f(\mathbf{0}) = \mathbf{0} \in \bar{B}(\mathbf{0},1))$.\\
+Also $g(\mathbf{0}) = \mathbf{0}\in K$. For $\mathbf{x}\in \bar{B}(\mathbf{0},1)$ and $\mathbf{x} \neq \mathbf{0}$, $$g(\mathbf{x}) = \|k(\mathbf{x})\|\mathbf{x} = \|k(\mathbf{x})\|\|\mathbf{x}\|\mathbf{u_x} = \|\mathbf{x}\|k(\mathbf{x})$$
+where $\mathbf{u_x}$ is a unit vector in direction of $\mathbf{x}$, and since $k(\mathbf{x})$ is positively collinear with $\mathbf{x}$ (though, unlike before, it is not necessary $\alpha>1$). Now since $\mathbf{0}, k(\mathbf{x}) \in K$ and $\|\mathbf{x}\| \leq 1$, by convexity of $K$, we have $g(\mathbf{x})\in K$.\\
+Let us now define $f':K \mapsto \bar{B}(\mathbf{0},1)$ and $g':\bar{B}(\mathbf{0},1) \mapsto K$ in the same manner as $f$ and $g$ above. Then $f'$ and $g'$ are continuous, and they are inverses of each other. Hence $f'$ is bijective. Thus $f'$ is a continuous bijection and its inverge $g'$ is continuous, then $K$ and $\bar{B}(\mathbf{0},1)$ must be homeomorphic.
+\end{proof}
+We can finally prove the general Brower's Fixed Point Theorem
+\begin{theorem}
+\label{Gen Brouwer's}
+\textbf{(Brouwer's Fixed Point Theorem)} If $K$ is a non empty, compact, convex subset of $\mathbb{R}^m$ and $f:K\mapsto K$ be continuous, then $f$ has a fixed point.
+\end{theorem}
+\begin{proof}
+We can prove this by induction on $m$ (dimensions of $K$)\\
+\textit{$m = 0$:} $K$ is a single point $x^*$, so by definition $f(x^*) = x^*$, a fixed point. Now consider cases $0,1,2,\dots, m-1$, if $K$ has at most $n$ affinely independent vectors where $0\leq m<m$, we can use inductive hyptothesis in $n$ dimensions to show that $f$ must have fixed point (i.e. we can embed/convert $K$ in a lower-dimensional space that will satisfy conditions to apply Theorem \ref{Homeo}).\\
+
+If $K$ has $m$ affinely independent vectors, then $K$ must have non empty interior in $\mathbb{R}^m$ by convexity, so we can apply Theorem \ref{Homeo}. Thus $K$ is homeomorphic to $\bar{B}(\mathbf{0},1)$. But as mentioned above, the standard $(m-1)$-simplex $\Delta_{m-1}$ is also a closed, convex set having nonempty interior, hence it is also homeomorphic to $\bar{B}(\mathbf{0},1)$. Then by Lemma \ref{Homeo Transitivity}, we have $K$ is homeomorphic to $\Delta_{m-1}$, then by Lemma \ref{Fixed Point}, we have that $f$ must have a fixed point.
+\end{proof}
+\section{Kakutani's Fixed Point Theorem}
+Kakutani's Fixed Point Theorem extends Brouwer's Theorem to \textit{set-valued functions} (i.e. which map points to sets, this is also called a \textit{correspondence}). Before we start these, we need a new notion of continuity and fixed points for such functions.
+
+\begin{defn}
+\textbf{(Upper Semi-Continuous Function)} Let $\mathbf{P}(X)$ denote all nonempty, closed, convex subsets of $X$. If $S$ is nonempty, compact and convex, then the set-valued function $\Phi:S\mapsto \mathbf{P}(S)$ is upper semi-continuous if for any sequences $(\mathbf{x}_n),(\mathbf{y}_n)$ in $S$, we have that $\lim_{n\to\infty} \mathbf{x}_n = \mathbf{x}_0$, $\lim_{n\to\infty} \mathbf{y}_n = \mathbf{y}_0$, and $\mathbf{y}_n\in \Phi(\mathbf{x}_n)\forall n\in \mathbb{N}$ implies $\mathbf{y}_0 \in \Phi(\mathbf{x}_0)$
+\end{defn}
+\begin{defn}
+\textbf{(Fixed Point of Set-Valued Functions)} A fixed point of a set valued function $\Phi: S\mapsto \mathbf{P}(S)$ is a point $\mathbf{x}^*$ s.t. $\mathbf{x}^*\in \Phi(\mathbf{x}^*)$
+\end{defn}
+Kakutani’s Theorem is very similar to Brouwer’s Theorem, but for set-valued functions. We now prove Kakutani's Theorem for simplices.
+
+\begin{theorem}
+\label{Kakutani}
+\textbf{(Kakutani's Fixed Point Theorem for standard n-simplex)} If $S$ is a $r$-dimensional closed simplex in a Euclidian Space and $\Phi:S\mapsto \mathbf{P}(S)$ is upper semi-continuous, then $\Phi$ has a fixed point.
+\end{theorem}
+\begin{proof}
+Consider an arbitrary simplical subdivision $S_n$ of $S$ with $mesh \leq \frac{1}{n}$.\\
+There are multiple smaller $r$-dimensional subsimplices, consider any one and call it $S_x$ and let the vertices be $\mathbf{x}_0,\dots,\mathbf{x}_r$. Then all the points in $S_x$ can be written as $\sum_{j=0}^r \lambda_i\mathbf{x}_i$ where $\lambda_i\geq 0 \forall \{0,1,\dots,r\}$ and $\sum_{j=0}^r \lambda_i = 1$. For each $\mathbf{x}_i$, consider an arbitrary point $\mathbf{y}_i \in \Phi(\mathbf{x}_i$. Let the simplex formed by $\mathbf{y}_0,\dots,\mathbf{y}_r$ be $S_y$. Then we can linearly map all points of $S_x$ to $S_y$ by representing all points of $S_y$ as $\sum_{j=0}^r \lambda_i\mathbf{y}_i$ where $\lambda_i$ are the same as for $S_x$.\\
+If we do such a mapping for all $\mathbf{x}^n\in V$ where $V$ is the set of vertices of this subdivision, then all the points in $S$ would have a corresponding point in $S$. We get a point valued function $\varphi_n: S\mapsto S$ which is continuous as convex combinations are continuous and $S$ is convex.\\
+By Brower's Fixed Point Theorem (Theroem \ref{Gen Brouwer's}), since $S$ is nonempty, compact and convex, and $\varphi_n:S\mapsto S$ is continuous, it has a fixed point $\mathbf{x}_n\in S$ such that $\varphi_n(\mathbf{x}_n) = \mathbf{x}_n$. Then consider the sequence of points $\mathbf{x}_1,\mathbf{x}_2,\dots \in S$. Since S is compact, by Theorem \ref{Bolzanno}, there exists a convergent subsequence of $(\mathbf{x}_n)$, $(\mathbf{x}_{n_v})$ that converges to $\mathbf{x}_0 \in S$, i.e. $\lim_{v\to \infty} \mathbf{x}_{n_v} = \mathbf{x}^* \in S$\\
+
+We now prove that $\mathbf{x}^*$ is a fixed point of $\Phi$. Let $R_n$ be a r-dimensional closed subsimplex of $S_n$ that contains $\mathbf{x}_{n_v}$ (if $\mathbf{x}_n$ is on a common face, choose any 1 arbitrarily). Let $\mathbf{z}^n_0,\dots, \mathbf{z}^n_r$ be the vertices of $R_n$. By a similar argument as Theorem \ref{Brouwer}, by compactness, each sequence of vertices has a convergent subsequence and since the mesh approaches $0$ and $\mathbf{x}_{n_v}$ approaches $\mathbf{x}_0$ we have that each sequence of a vertex must have a convergent subsequence that converges on $\mathbf{x}_0$. We get $\lim_{v\to\infty}\mathbf{z}^{n_v}_i = \mathbf{x}^*$.\\
+Since $\mathbf{x}_n \in R_n \subset S_n$, we know that $\mathbf{x}_n = \sum_{i=0}^r \lambda^n_i \mathbf{z}^n_i$ with $\lambda^n_i \geq 0~ \forall n\in \mathbb{N}, i\in \{0,\dots,r\}$ and $\sum_{i=0}^r \lambda^n_i =1~\forall n\in \mathbb{N}$. Let $\mathbf{y}^n_i = \varphi_n(\mathbf{z}^n_i)~\forall i\in \{0,\dots,r\}$ and $n\in \mathbb{N}$. Since $\mathbf{z}^n_i$ are vertices of the simplical subdivisions, by definition of $\varphi_n$, we have $\mathbf{y}^n_i = \Phi(\mathbf{z}^n_i)$.\\
+Since $\varphi_n$ is linear $$\mathbf{x}_n = \varphi_n(\mathbf{x}_n) = \varphi_n\left(\sum_{i=0}^r \lambda^n_i \mathbf{z}^n_i\right) = \sum_{i=0}^r \varphi_n(\lambda^n_i \mathbf{z}^n_i) = \sum_{i=0}^r \lambda^n_i \varphi_n(\mathbf{z}^n_i) = \sum_{i=0}^r \lambda^n_i \mathbf{y}^n_i$$ for all $n\in \mathbb{N}$. Since $\lambda^n_i\in [0,1]$ and $\mathbf{y}^n_i\in S$, both are compact sets, hence there exists a subsequence of $(n_v)$, $(n_v')$ such that $\lambda^{n_v'}_i$ and $\mathbf{y}^{n_v'}_i$ converge for all $i\in\{0,\dots,r\}$. (Note we take subsequence of $(n_v)$ as we want the subsequence of $(\mathbf{x}_n)$ to converge to $\mathbf{x}^*$ as well). Hence $$\lim_{v\to\infty}\lambda^{n_v'}_i = \lambda^*_i \hspace{5mm} \lim_{v\to\infty}\mathbf{y}^{n_v'}_i = \mathbf{y}^*_i$$ for all $i\in \{0,1,\dots,r\}$. Also by continuity of $\lambda^n_i$ and $\mathbf{y}^n_i$, we have $$\lambda_i^*\geq 0 \forall i\in\{0,\dots,r\}; \hspace{4mm} \sum_{i=0}^r \lambda_i^* = 1; \hspace{4mm}\mathbf{x}^* =  \sum_{i=0}^r \lambda_i^*\mathbf{y}_i^* $$ Also since $(n_v')$ is a subsequence of $(n_v)$, we have $\lim_{v\to\infty} \mathbf{z}_i^{n_v'} = \mathbf{x}^*$ by Lemma \ref{subsequence}. Now as $\mathbf{y}^{n_v'}_i \in \Phi(\mathbf{z}^{n_v'}_i) ~\forall v\in\mathbb{N}$ and $i\in \{0,\dots,r\}$, by \textit{upper semi-continuity} of $\Phi$, we have $\mathbf{y}^*_i \in \Phi(\mathbf{x}^*)$. Now since $\Phi(\mathbf{x}^*)$ is convex, $\sum_{i=0}^r \lambda^*_i \mathbf{y}^*_i \in \Phi(\mathbf{x}_0)$, that is $\mathbf{x}^*\in \Phi(\mathbf{x}^*)$. Hence $\mathbf{x}^*$ is a fixed point in $\Phi$.
+\end{proof}
+Now we generalise Kakutani's Theorem to nonempty, compact and convex sets. For this we require a few more preliminaries.
+\begin{lem}
+\label{Composite}
+If $f:S\mapsto S'$ is a continuous point-valued function and $g:S'\mapsto \mathbf{P}(S')$ is an upper semi-continuous set-valued function s.t. $g\circ f : S\mapsto \mathbf{P}(S)$, then $g\circ f$ is upper semi-continuous.
+\end{lem}
+\begin{proof}
+Here, by definition of upper semi-continuous, we need codomain to be $\mathbf{P}(S)$, hence $\mathbf{P}(S')\subseteq \mathbf{P}(S)$.\\
+Consider sequences $(\mathbf{x}_n),(\mathbf{y}_n) \in S$ such that $\lim_{n\to\infty}\mathbf{x}_n = \mathbf{x}_0$ and $\lim_{n\to\infty}\mathbf{y}_n = \mathbf{y}_0$ and $\mathbf{y}_n\in g(f(\mathbf{x}_n))$ for all $n\in \mathbb{N}$. We need to prove that $\mathbf{y}_0\in g(f(\mathbf{x}_0))$. By the continuity of $f$, the sequence $(f(\mathbf{x}_n))$ converges to $f(\mathbf{x}_0) \in S'$, so $\lim_{n\to\infty}f(\mathbf{x}_n) = f(\mathbf{x}_0)$. So by the upper semi-continuity of $g$, $\mathbf{y}_0 \in g(f(\mathbf{x}_0))$, so  $g\circ f$ is upper semi-continuous. 
+\end{proof}
+\begin{defn}
+\textbf{(Retraction)} A function $\psi: X\mapsto Y$ where $Y\subset X$ is retracting if $\psi(y) = y$ for all $y\in Y$.
+\end{defn}
+A retraction is a continuous mapping of a space onto a subspace leaving each point of the subspace fixed. We can now prove the general form for Kakutani's Theorem.
+\begin{theorem}
+\textbf{(Kakutani's Fixed Point Theorem)} If $S$ is a nonempty, compact, convex set in a Euclidian space and $\Phi: S\mapsto\mathbf{P}(S)$ is upper semi-continuous, then $\Phi$ has a fixed point.
+\end{theorem}
+\begin{proof}
+Consider an arbitrary closed simplex $S'$ that contains $S$ ($S\subset S'$) (such a simplex must exist because $S$ is compact and convex). We can construct a continuous retrating function $\psi:S'\mapsto S$ (for example, identity in $S$ and a function that flattens $S'\backslash S$ onto boundary of $S$). Consider $\Phi\circ\psi :S'\mapsto \mathbf{P}(S)$ and $\mathbf{P}(S) \subset \mathbf{P}(S')$, we have that $\Phi\circ\psi$ maps from $S'$ to $\mathbf{P}(S')$. Since $\psi$ is continuous and $\Phi$ is upper semi-continuous, by Lemma \ref{Composite}, $\Phi\circ\psi$ is upper semi-continuous on a simplex $S'$. Thus we satisfied the condition for Kakutani's Fixed Point Theorem for simplices (Theorem \ref{Kakutani}), there is a fixed point, say $\mathbf{x}_0\in S'$. Then $\mathbf{x}_0\in \Phi(\psi(\mathbf{x}_0))$. But $\Phi(\psi(\mathbf{x}_0)) \subset S$  (as i maps to $\mathbf{P}(S)$). This gives $\mathbf{x}_0 \in S$. Since $\psi$ is retracting, $\psi(\mathbf{x}_0) = \mathbf{x}_0$, so $\Phi(\psi(\mathbf{x}_0)) = \Phi(\mathbf{x}_0)$. So $\mathbf{x}_0 \in \Phi(\mathbf{x}_0)$. Hence $\mathbf{x}_0$ is a fixed point of $\Phi$.
+\end{proof}
+\section*{References}
+Fixed Point Theorems and Application to Game Theory - Allen Yuan\\
+Kakutani's Fixed Point Theorem and the Minimax Thoerem in Game Theory - Youngguen Yoo 
+
+\end{document}
