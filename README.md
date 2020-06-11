@@ -2,7 +2,7 @@
 These are my notes made during Game Theory report.
 
 ## Game Theory
-This is the notes covering the first topic of Game Theory with its tex file
+This is the notes covering the first topic of Game Theory. This contains 2 sections **Non - Cooperative** and **Cooperative Game Theory**.
 
 ## Fixed Point Theorems
 This is an additional content I studied to understand the proof of a theorem in Game Theory
